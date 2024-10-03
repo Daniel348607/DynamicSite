@@ -1,0 +1,154 @@
+<form #appForm="ngForm" >
+
+<!------------------------------------------------------------------------------>
+<!--CONTACTO Y MENU TOP-->
+<div style="display:flex;flex-direction:column;">
+
+  <!--<img src="assets/ContactoTop.jpg" alt="eComm" style="max-width:100%;width:auto;height:auto;"/>-->
+
+  <!------------------------------------------------------------------------------>
+  <!--MENU TOP WEB-->
+  <div class="main" style="margin:0;padding:0;">
+
+    <!--LOGO DE LA EMPRESA-->
+    <img [src]="imgLogoEmp" alt="eComm" style="width:40px;position: absolute;margin-top: 10px; margin-left: 15px;"/>
+
+    <ul class="mainnav">
+        <font size="2"><b>
+        <li style="vertical-align: center; width: 12%"><a href="#">INICIO</a></li>
+        <li class="hassubs" style="width: 19%"><a href="#" [routerLink]="['prodmain']">PRODUCTOS</a>
+            <!--<ul class="dropdown">
+                <li class="subs"><a href="#">Pantallas/Módulos/LCD</a></li>
+                <li class="subs"><a href="#">Táctiles</a></li>
+            </ul>-->
+        </li>
+
+        <li style="width: 17%"><a href="#" [routerLink]="['contacto']"> CONTACTO</a></li>
+        <li *ngIf = "userrol == 1" class="hassubs" style="width: 19%"><a href="#">ADMINISTRACIÓN</a>
+            <ul class="dropdown">
+                <li class="subs"><a href="#" >Pedidos</a></li>
+                <li class="subs"><a href="#" >Productos</a></li>
+                <li class="subs"><a href="#">Usuarios</a></li>
+                <li class="subs"><a href="#" >Marcas/Modelos</a></li>
+                <li class="subs"><a href="#" >Tipos Productos</a></li>
+                <li class="subs"><a href="#" >Consultas</a></li>
+            </ul>
+        </li>
+        </b></font>
+    </ul>
+    <br style="clear: both;">
+  </div>
+
+  <!------------------------------------------------------------------------------>
+
+    <!--LOGIN Y CARRITO SIN LOGEAR-->
+    <font size="2"><b>
+      <td style="vertical-align: middle" *ngIf = "!userLoginService.isUserLoggedIn">
+          <div style="position: absolute;top: -1.5%; right: 70px; display: flex;z-index :1001;">
+              <a href="#" [routerLink]="['creacuenta']">
+
+                  <div id="in" style="margin-top: 40px;" ><font color=#585f83 size="2">CREAR CUENTA</font></div>
+
+              </a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+              <a (click)='openModal("custom-modal-1")' style="cursor:pointer;">
+                  <img src="assets/login.png" alt="login" style="width: 30px;margin-top: 30px;"/>
+              </a>
+
+              &nbsp;&nbsp;
+
+              <div id="in" style="margin-top: 40px;" ><font color=#585f83 size="2">login</font></div>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <img src="assets/carrito.png" alt="carro" style="width: 20px;height: 25px;vertical-align: middle;margin-top: 35px;"/>
+          </div>
+      </td>
+
+      <!--LOGIN Y CARRITO LOGEADO-->
+      <td style="vertical-align: middle" *ngIf = "userLoginService.isUserLoggedIn">
+          <div style="position: absolute;top: -2%;right: 70px; display: flex;z-index :1001;">
+              <a (click)='LogOut(appForm)' style="cursor:pointer;">
+                  <img src="assets/login.png" alt="login" style="width: 25px;margin-top: 40px;"/>
+              </a>
+              &nbsp;&nbsp;
+              <div id="in" style="margin-top: 44px;" ><font color=#585f83 size="2">logout {{userlog}}</font></div>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <div *ngIf = "userpre > 0">
+                  <a href="#" [routerLink]="['viewcarrito']" style="cursor:pointer;">
+                      <img src="assets/carrito.png" alt="carro" style="width: 20x;height: 25px;vertical-align: middle;margin-top: 40px;"/>
+                  </a>
+              </div>
+              <div *ngIf = "userpre == 0">
+                  <img src="assets/carrito.png" alt="carro" style="width: 20px;height: 25px;vertical-align: middle;margin-top: 40px;"/>
+              </div>
+              &nbsp;
+              <div id="tot" style="margin-top: 44px;" ><font color=#585f83 size="2">$U {{userpre}}</font></div>
+          </div>
+      </td>
+      </b>
+    </font>
+</div>
+<!------------------------------------------------------------------------------>
+
+
+<!------------------------------------------------------------------------------>
+<!--POPUP LOGIN -->
+<jw-modal-ini id="custom-modal-1">
+  <!--WEB-->
+    <ul style="margin-left: 30px;margin-right: 12px;">
+    <li style="padding-left: 30%"><img src="assets/LogoEmpresa.jpg" alt="eComm" style="width: 60px;"/></li>
+      <div style="font-size:20px;width: 250px">LOGIN USUARIOS</div>
+      <hr style="height: 1px;width: 75%; border-color: #329AF9;margin-left: 0px;margin-right: 10px;"/>
+      <li style="padding-left: 2%">Usuario: <input type="text" id = "username" value = '' #name="ngModel" name="username" [(ngModel)]="username" placeholder="Usuario"/></li>
+      <br>
+      <li style="padding-left: 2%">Password: <input type="password" id = "password" value = '' #name="ngModel" name="password" [(ngModel)]="password" placeholder="Password"/>
+      </li>
+      <a style="cursor:pointer;" (click)="OlvidoContra()">
+          <div id="contra"> <font color="blue" size="1">Olvidé mi contraseña</font></div>
+      </a>
+      <br>
+      <li style="display:inline;">
+      <button class = "boton_aceptar" style="cursor:pointer;" (click)="logIn(appForm)">Login</button>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <button style="cursor:pointer;" class = "boton_aceptar" (click)="closeModal('custom-modal-1');">Cerrar</button>
+    </li>
+    </ul>
+</jw-modal-ini>
+
+
+<!------------------------------------------------------------------------------>
+<!--WHATSAPP FLOTANTE WEB-->
+<div class="btn-whatsapp">
+<a href="https://web.whatsapp.com/send?phone=0059896448766" target="_blank">
+    <img src="assets/wapp01.png" alt="telefono" style="width: 60px;" alt="">
+</a>
+</div>
+
+
+<!------------------------------------------------------------------------------>
+<!--CONTENIDO PÁGINA-->
+<div width = "90%" >
+  <router-outlet></router-outlet>
+</div>
+<!------------------------------------------------------------------------------>
+
+
+<!-----------------------------------------------------------------------------
+<div style="max-width:100%;width:auto;height:auto;">
+  <img src="assets/PIE.jpg" alt="eComm" style="max-width:100%;width:auto;height:auto;"/>
+</div>-->
+<footer class="nuevo-footer">
+  <div class="redes-sociales">
+    <a href="https://www.facebook.com/tuempresa" target="_blank" class="boton-social facebook">
+      <i class="fab fa-facebook-f"></i>
+    </a>
+    <a href="https://www.instagram.com/tuempresa" target="_blank" class="boton-social instagram">
+      <i class="fab fa-instagram"></i>
+    </a>
+    <a href="https://www.twitter.com/tuempresa" target="_blank" class="boton-social twitter">
+      <i class="fab fa-twitter"></i>
+    </a>
+  </div>
+</footer>
+<!------------------------------------------------------------------------------>
+
+</form>

@@ -1,0 +1,33 @@
+<div class="container">
+  <aside class="filtros">
+    <h2>Filtros</h2>
+    <div>
+      <label for="categoria">Categoría:</label>
+      <select id="categoria" [(ngModel)]="filtros.categoria" (change)="aplicarFiltros()">
+        <option value="">Todas</option>
+        <option *ngFor="let cat of categorias" [value]="cat">{{cat}}</option>
+      </select>
+    </div>
+    <div>
+      <label for="precio">Precio máximo:</label>
+      <input type="number" id="precio" [(ngModel)]="filtros.precioMaximo" (change)="aplicarFiltros()">
+    </div>
+  </aside>
+
+  <main class="contenido">
+    <div class="grid-articulos">
+      <div class="articulo" *ngFor="let articulo of articulosPaginados">
+        <img [src]="articulo.imagen" [alt]="articulo.nombre">
+        <p>{{ articulo.nombre }}</p>
+        <p>Categoría: {{ articulo.categoria }}</p>
+        <p>Precio: ${{ articulo.precio }}</p>
+      </div>
+    </div>
+
+    <div class="paginacion">
+      <button (click)="cambiarPagina(paginaActual - 1)" [disabled]="paginaActual === 1">Anterior</button>
+      <span>Página {{ paginaActual }} de {{ totalPaginas }}</span>
+      <button (click)="cambiarPagina(paginaActual + 1)" [disabled]="paginaActual === totalPaginas">Siguiente</button>
+    </div>
+  </main>
+</div>
